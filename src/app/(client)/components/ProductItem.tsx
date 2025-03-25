@@ -1,21 +1,22 @@
-import Image, { StaticImageData } from "next/image"
+import Image from "next/image"
 import { useState } from "react";
 import { FaRegHeart, FaHeart } from "react-icons/fa";
 
 interface ProductItemProps{
-    img: StaticImageData;
-    imgHover: StaticImageData;
+    img: string;
+    imgHover: string;
     description: string;
-    price: string;
+    price: number;
+    onClick: () => void;
 }
 
 
-const ProductItem: React.FC<ProductItemProps> = ({img, imgHover, description, price}) => {
+const ProductItem: React.FC<ProductItemProps> = ({img, imgHover, description, price, onClick}) => {
 
     const [urlImg, setUrlImg] = useState(img);
     const [iconColor, setIconColor] = useState(false);
 
-    return <div className="mb-3 hover:cursor-pointer">
+    return <div className="mb-3 hover:cursor-pointer" onClick={onClick}>
         <div className="w-full relative h-[400px]">
             {
                 <Image layout='fill' src={urlImg} alt="" 

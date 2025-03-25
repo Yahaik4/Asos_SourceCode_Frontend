@@ -8,6 +8,9 @@ import { IoCloseSharp } from "react-icons/io5";
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 
+import { fetchAllProductGroup } from '@/Services/productGroup';
+import { useFetch } from '@/Hook/useFetch';
+import { ProductGroup } from '@/app/models/ProductGroup';
 
 const Header: React.FC = () => {
     const pathname = usePathname();
@@ -74,14 +77,14 @@ const HeaderIcons: React.FC = () => {
                     <>
                         <div className="flex justify-between">
                             <div className='p-3'>
-                                <a className='pr-1 border-r-2 border-gray-400' href="">Sign In</a>
+                                <a className='pr-1 border-r-2 border-gray-400' href="/login">Sign In</a>
                                 <a className='pl-1' href="">Sign Up</a>
                             </div>
                             <button className='p-3'><IoCloseSharp size={25}></IoCloseSharp></button>
                         </div>
                         <ul className="flex-col ">
                             <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
-                                My Account
+                                <a href="/my-account">My Account</a>
                             </li>
                             <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
                                 My Orders
@@ -104,6 +107,10 @@ const HeaderIcons: React.FC = () => {
 
 
 const NavBar: React.FC = () => {
+    const { isFetching, fetchedData: productGroups, error } = useFetch<ProductGroup[]>(fetchAllProductGroup , []);
+
+    if(isFetching) return <p>Loading...</p>
+    if(error) return <p>Error: {error.message}</p>
 
     return (
         <nav className='bg-stone-700'>
@@ -119,12 +126,29 @@ const NavBar: React.FC = () => {
                         </div>
                     }
                 />
-                <NavItem>Clothing</NavItem>
+                {productGroups.map((item) => {
+                    return (
+                        <Dialog 
+                            key={item.id}
+                            className={'w-[90svw] translate-y-[70%]'}
+                            trigger={
+                                <NavItem>{item.name}</NavItem>
+                            }
+                            content={
+                                <div className='w-full h-[80px] bg-red-100'>
+                                    abf
+                                </div>
+                            }
+                        />
+                    )
+                })}
+        
+                {/* <NavItem>Clothing</NavItem>
                 <NavItem>Trending</NavItem>
                 <NavItem>Dresses</NavItem>
                 <NavItem>Shoes</NavItem>
                 <NavItem>Face + Body</NavItem>
-                <NavItem>Brands </NavItem>
+                <NavItem>Brands </NavItem> */}
             </ul>
 
         </nav>

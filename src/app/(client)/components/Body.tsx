@@ -4,7 +4,7 @@ interface bodyProps{
     heroImg: StaticImageData;
     sessionImg1: StaticImageData;
     sessionImg2: StaticImageData;
-    slide: StaticImageData[];
+    slide: StaticImageData[];   
 }
 
 const Body: React.FC<bodyProps> = ({heroImg, sessionImg1, sessionImg2, slide}) => {
