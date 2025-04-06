@@ -1,29 +1,32 @@
 import { useState } from "react";
+import { useEffect } from "react";
 
-interface ColorProps{
-    colors: [],
+interface ColorProps {
+    colors: string[],
+    handleOption: (data: { color: string}) => void,
 }
 
-const Color: React.FC<ColorProps> = ({colors}) =>{
+const Color: React.FC<ColorProps> = ({ colors, handleOption }) => {
     const [selectedColor, setSelectedColor] = useState<string | null>(null);
+    
 
-    // const colors = ["red", "blue", "green", "yellow"];
+    useEffect(() => handleOption({color: selectedColor || ''}), [selectedColor]);
 
     return (
         <div className="flex gap-2">
             {colors.map((color) => (
                 <div
                     key={color}
-                    className={`border-2 rounded-full p-1 cursor-pointer ${
-                        selectedColor === color ? "border-4 border-black" : "border-gray-300"
+                    className={`border-2 rounded-full p-[2px] cursor-pointer ${
+                        selectedColor === color ? "border-2 border-black" : "border-gray-300"
                     }`}
                     onClick={() => setSelectedColor(color)}
                 >
-                    <div className={`w-10 h-10 rounded-full bg-${color}-500`}></div>
+                    <div className="w-3 h-3 rounded-full" style={{ backgroundColor: color }}></div>
                 </div>
             ))}
         </div>
     );
-}
+};
 
 export default Color;

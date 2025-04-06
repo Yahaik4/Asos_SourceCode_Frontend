@@ -11,7 +11,7 @@ const Body: React.FC<bodyProps> = ({heroImg, sessionImg1, sessionImg2, slide}) =
     console.log(slide.length);
     
     return (
-        <div className=''>
+        <div className='mb-16'>
             <div className='w-full h-[700px] relative mb-12'>
                 <Image layout='fill' className='aspect-video' src={heroImg} alt=""/>
             </div>

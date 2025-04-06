@@ -43,11 +43,10 @@ const PasswordForm: React.FC<PasswordFormProps> = ({email, onEdit}) => {
             console.log("Login Success", response);
             if (response.statusCode === 200) {
                 router.push("/women");
+                setToastMessage(response.msg);
                 setTimeout(() => {
-                    setToastMessage(response.msg);
-                    
-                    setTimeout(() => setToastMessage(null), 3000);
-                }, 2000);
+                    alert(response.msg);
+                }, 1000);
             } else {
                 setError(response.message || "Login Failed");
             }

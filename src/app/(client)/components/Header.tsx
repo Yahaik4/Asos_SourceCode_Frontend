@@ -12,9 +12,10 @@ import { fetchAllProductGroup } from '@/Services/productGroup';
 import { useFetch } from '@/Hook/useFetch';
 import { ProductGroup } from '@/app/models/ProductGroup';
 
+import { useCart } from '../Context/CartContext';
+
 const Header: React.FC = () => {
     const pathname = usePathname();
-    console.log(pathname);
     
     return (
         <header className='text-white'>
@@ -61,9 +62,8 @@ const SearchBar: React.FC = () =>{
 }
 
 const HeaderIcons: React.FC = () => {
-    const [isOpen, setIsOpen] = useState(false);
-    console.log(isOpen);
-    
+    const { cartItems } = useCart();
+
     return(
         <ul className='flex h-full items-center'>
             <Dialog 
@@ -99,8 +99,18 @@ const HeaderIcons: React.FC = () => {
                     </>
                 }
             />
-            <li className='px-4 hover:cursor-pointer'><FaRegHeart size={20}></FaRegHeart></li>
-            <li className='px-4 hover:cursor-pointer'><FaShoppingCart size={20}></FaShoppingCart></li>
+            <a href="">
+                <li className='px-4 hover:cursor-pointer'><FaRegHeart size={20}></FaRegHeart></li>
+            </a>
+            <a href="/cart">
+                <li className='px-4 hover:cursor-pointer relative'>
+                    <FaShoppingCart size={20}>
+                    </FaShoppingCart>
+                    {cartItems.length > 0 && <div className="absolute bottom-0 right-0 bg-red-500 -translate-x-2 translate-y-2 text-white text-xs w-4 h-4 flex items-center justify-center rounded-full">
+                        {cartItems.length}
+                    </div>}
+                </li>
+            </a>
         </ul>
     )
 }
@@ -161,7 +171,6 @@ interface NavItemProps{
 
 const NavItem: React.FC<NavItemProps> = ({children}) => {
     const [isOpen, setIsOpen] = useState(false);
-    console.log(isOpen);
     
     return (
         <>

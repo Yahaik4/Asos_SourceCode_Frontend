@@ -1,0 +1,25 @@
+interface DropdownOptionProps{
+    defaultValue: string,
+    options: string[],
+    handleOption: (data: {size: string }) => void,
+}
+
+
+const DropdownOption: React.FC<DropdownOptionProps> = ({defaultValue, options, handleOption}) => {
+    const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+        const selectedValue = event.target.value;
+        handleOption({size: selectedValue});
+    }
+
+    return (
+        <select className="text-sm p-2 border-2 border-black hover:cursor-pointer" name="size" onChange={handleChange}>
+            <option defaultValue={""} >{defaultValue}</option>
+            {options.map((option) => {
+                return <option key={option} value={option}>{option}</option>
+            })
+            }
+        </select>
+    )
+}
+
+export default DropdownOption;

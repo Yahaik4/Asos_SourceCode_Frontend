@@ -1,16 +1,19 @@
 import Header from "../components/Header"
 import Footer from "../components/Footer"
+import { CartProvider } from "../Context/CartContext";
 
 interface layoutProps{
-    children: React.FC;
+    children: React.ReactNode;
 }
 
 const layout: React.FC<layoutProps> = ({children}) => {
     return (
         <>
-            <Header></Header>
-            {children}
-            <Footer></Footer>
+            <CartProvider>
+                <Header></Header>
+                    {children}
+                <Footer></Footer>
+            </CartProvider>
         </>
     )
 }

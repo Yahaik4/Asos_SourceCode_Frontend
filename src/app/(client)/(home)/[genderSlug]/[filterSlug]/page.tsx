@@ -18,8 +18,6 @@ const page: React.FC = () => {
     const category = path[2];
     console.log("path:", path[1]);
     console.log("Category:", path[2]);
-
-    // const filterUrl = gender + 
     
     const fetchFn = useCallback(() => {
         return fetchFilteredProducts([
@@ -55,10 +53,10 @@ const page: React.FC = () => {
                     <DropDownList title="Product Type" items={["Footwear", "Tops"]}/>
                 </div>
                 <div className="">
-                    <DropDownList title="Style" items={["Footwear", "Tops"]}/>
+                    <DropDownList title="Brand" items={["Footwear", "Tops"]}/>
                 </div>
                 <div className="">
-                    <DropDownList title="Sort" items={["Footwear", "Tops"]}/>
+                    <DropDownList title="Price" items={["Footwear", "Tops"]}/>
                 </div>
                 <div className="">
                     <DropDownList title="Sort" items={["Footwear", "Tops"]}/>

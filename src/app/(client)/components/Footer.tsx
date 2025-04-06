@@ -2,7 +2,7 @@ import { FaFacebook, FaInstagramSquare, FaGooglePlus, FaCcVisa, FaCcMastercard, 
 
 const Footer: React.FC = () => {
     return(
-        <footer className="bottom-0 w-full border-t-2 mt-16">
+        <footer className="bottom-0 w-full border-t-2">
             <div className="flex w-full items-center justify-center gap-[50px] [&>svg]:text-[30px] py-[15px]">
                 <FaFacebook />
                 <FaInstagramSquare/>

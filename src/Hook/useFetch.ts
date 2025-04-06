@@ -17,10 +17,10 @@ export function useFetch<T>(fetchFn: () => Promise<T>, initialValue: T): FetchHo
   const fetchData = useCallback(async () => {
     setIsFetching(true);
     setError(undefined); 
+    console.log('called');
+    
     try {
-      console.log("Fetching data...");
       const data = await fetchFn();
-      console.log("Fetched data:", data);
       setFetchedData(data);
     } catch (error: any) {
       setError({ message: error?.message || "Failed to fetch data" });

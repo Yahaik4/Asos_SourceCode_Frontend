@@ -2,7 +2,7 @@ import Header from "../my-account/components/Header";
 import SideBar from "./components/SideBar";
 
 interface layoutProps{
-    children: React.FC;
+    children: React.ReactNode;
 }
 
 const layout: React.FC<layoutProps> = ({children}) => {

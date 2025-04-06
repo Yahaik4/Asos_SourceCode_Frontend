@@ -25,4 +25,50 @@ export async function Login(email: string, password: string) {
     }
 }
 
-export default { Login }
+export async function SendMail(email: string) {
+    try{
+        const response = await fetch(`${API_Auth}/resetpassword`, {
+            method: 'POST',
+            body: JSON.stringify({ email }),
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            credentials: "include"
+        });
+        const resData = await response.json();
+
+        if (!response.ok) { 
+            throw new Error(resData.msg || 'Login Failed');
+        }
+
+        return resData;
+    }catch(error){
+        console.error(error);
+        throw error;
+    }
+}
+
+export async function VevifyOTP(email: string | null, OTP: string ) {
+    try{
+        const response = await fetch(`${API_Auth}/verifyotp`, {
+            method: 'POST',
+            body: JSON.stringify({ email, OTP }),
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            credentials: "include"
+        });
+        const resData = await response.json();
+
+        if (!response.ok) { 
+            throw new Error(resData.msg || 'verifyotp Failed');
+        }
+
+        return resData;
+    }catch(error){
+        console.error(error);
+        throw error;
+    }
+}
+
+
