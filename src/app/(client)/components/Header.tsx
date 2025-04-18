@@ -5,10 +5,11 @@ import Image from 'next/image';
 import Dialog  from './Dialog'
 import { useState } from 'react';
 import { IoCloseSharp } from "react-icons/io5";
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import Link from 'next/link';
 
 import { fetchAllProductGroup } from '@/Services/productGroup';
+// import { fetchFilteredProducts } from '@/Services/productService';
 import { useFetch } from '@/Hook/useFetch';
 import { ProductGroup } from '@/app/models/ProductGroup';
 
@@ -16,6 +17,7 @@ import { useCart } from '../Context/CartContext';
 
 const Header: React.FC = () => {
     const pathname = usePathname();
+    
     
     return (
         <header className='text-white'>
@@ -118,49 +120,21 @@ const HeaderIcons: React.FC = () => {
 
 const NavBar: React.FC = () => {
     const { isFetching, fetchedData: productGroups, error } = useFetch<ProductGroup[]>(fetchAllProductGroup , []);
-
+    console.log("productGroups:", productGroups);
+    
     if(isFetching) return <p>Loading...</p>
     if(error) return <p>Error: {error.message}</p>
 
     return (
         <nav className='bg-stone-700'>
             <ul className="flex justify-start text-sm px-8 mx-10 items-center h-14 relative">
-                <Dialog 
-                    className={'w-[90svw] translate-y-[70%]'}
-                    trigger={
-                        <NavItem>New in</NavItem>
-                    }
-                    content={
-                        <div className='w-full h-[80px] bg-red-100'>
-                            abf
-                        </div>
-                    }
-                />
+
                 {productGroups.map((item) => {
                     return (
-                        <Dialog 
-                            key={item.id}
-                            className={'w-[90svw] translate-y-[70%]'}
-                            trigger={
-                                <NavItem>{item.name}</NavItem>
-                            }
-                            content={
-                                <div className='w-full h-[80px] bg-red-100'>
-                                    abf
-                                </div>
-                            }
-                        />
+                        <NavItem key={item.id} children={item.name} />
                     )
                 })}
-        
-                {/* <NavItem>Clothing</NavItem>
-                <NavItem>Trending</NavItem>
-                <NavItem>Dresses</NavItem>
-                <NavItem>Shoes</NavItem>
-                <NavItem>Face + Body</NavItem>
-                <NavItem>Brands </NavItem> */}
             </ul>
-
         </nav>
     )
 }
@@ -171,17 +145,29 @@ interface NavItemProps{
 
 const NavItem: React.FC<NavItemProps> = ({children}) => {
     const [isOpen, setIsOpen] = useState(false);
-    
+    const pathname = usePathname();
+    const router = useRouter();
+
+    const gender = pathname.split('/')[1];
+    const targetPath = `/${gender}/${children}`;
+    const isActive = pathname === targetPath;
+  
+    function handleOnClick() {
+        if (isActive) return;
+        router.push(targetPath);
+    }
+
     return (
         <>
-            <li className='px-3 relative group hover:cursor-pointer hover:bg-stone-200 hover:text-gray-800 h-full flex items-center' 
+            <li
+                className={`px-3 relative group hover:cursor-pointer h-full flex items-center 
+                    ${isActive ? 'bg-stone-200 text-gray-800' : 'hover:bg-stone-200 hover:text-gray-800'}`}
                 onMouseEnter={() => setIsOpen(true)}
                 onMouseLeave={() => setIsOpen(false)}
+                onClick={handleOnClick}
             >
                 {children}
-                {/* <div className='absolute w-fit bottom-0 left-0 translate-y-full hidden group-hover:block bg-white z-10'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique deleniti rem neque, animi quibusdam dolor perferendis obcaecati minus nihil corporis illum ut numquam nesciunt eaque deserunt, labore assumenda dolorum voluptatibus?</div> */}
             </li>
-            {/* <Dialog isOpen={isOpen} className="max-w-[95%]"/> */}
         </>
     )
 }

@@ -17,7 +17,7 @@ const Color: React.FC<ColorProps> = ({ colors, handleOption }) => {
             {colors.map((color) => (
                 <div
                     key={color}
-                    className={`border-2 rounded-full p-[2px] cursor-pointer ${
+                    className={`flex items-center justify-center border-2 rounded-full p-[2px] cursor-pointer ${
                         selectedColor === color ? "border-2 border-black" : "border-gray-300"
                     }`}
                     onClick={() => setSelectedColor(color)}

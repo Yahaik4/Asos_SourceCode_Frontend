@@ -1,23 +1,50 @@
-import { NextRequest, NextResponse } from "next/server";    
-const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
+const API_DOMAIN = process.env.NEXT_PUBLIC_API_DOMAIN; 
+const API_Payment = `${API_DOMAIN}/payment`;
 
-export async function POST(request: NextRequest) {
-    try{
-        const {amount} = await request.json();
+export async function CreatePaymentIntent(amount: number, method: string | null, orderId: number | null) {
+    try {
+        const response = await fetch(`${API_Payment}/create-payment-intent`, {
+            method: 'POST',
+            body: JSON.stringify({ amount, method, orderId }),
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            credentials: "include"
+        });
 
-        const paymentIntent = await stripe.paymentIntent.create({
-            amount: amount,
-            currency: "usd",
-            automatic_payment_methods: { enabled: true },
-        })
+        const resData = await response.json();
 
-        return NextResponse.json({ clientSecret: paymentIntent.client_secret });
-    }catch(error){
-        console.error("Internal Error: ", error);
-        
-        return NextResponse.json(
-            { error: `Internal Server Error: ${error}`},
-            { status: 500 }
-        );
+        if (!response.ok) { 
+            throw new Error(resData.msg || 'create-payment-intent Failed');
+        }
+
+        return resData;
+    } catch (error: any) {
+        console.error("CreatePaymentIntent error:", error);
+        throw error;
+    }
+}
+
+export async function ConfirmPayment(orderId: number, paymentProvider: string, paymentIntentId: string, transactionId: string, paymentMethod: string, amount: number) {
+    try {
+        const response = await fetch(`${API_Payment}/confirm-payment`, {
+            method: 'POST',
+            body: JSON.stringify({ orderId, paymentProvider, paymentIntentId, transactionId, paymentMethod, amount }),
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            credentials: "include"
+        });
+
+        const resData = await response.json();
+
+        if (!response.ok) { 
+            throw new Error(resData.msg || 'ConfirmPayment Failed');
+        }
+
+        return resData.metadata;
+    } catch (error: any) {
+        console.error("Login error:", error);
+        throw error;
     }
 }

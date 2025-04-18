@@ -80,7 +80,7 @@ const PasswordForm: React.FC<PasswordFormProps> = ({email, onEdit}) => {
                 />
                 <Submit label="SIGN IN"/>
             </form>
-            <p className="mt-5 w-full text-sm">Forgot password?</p>
+            <a href="/reset-password" className="mt-5 w-full text-sm">Forgot password?</a>
         </>
     )
 }

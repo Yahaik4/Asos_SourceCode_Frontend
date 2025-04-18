@@ -8,7 +8,7 @@ import { useFetch } from '@/Hook/useFetch';
 import { useState, useEffect, useCallback } from 'react';
 import { ToastContainer, toast } from "react-toastify";
 
-import CartItemModel from '@/app/models/CartItemModel';
+import { CartItemModel } from "@/app/models/CartItemModel";
 import { DeleteCartItem, fetchAllCartItem, UpdateCartItem } from '@/Services/cartService';
 import { useCart } from "../../Context/CartContext";
 

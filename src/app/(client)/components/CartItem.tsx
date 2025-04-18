@@ -2,6 +2,7 @@
 import { IoMdClose } from "react-icons/io";
 import { CiHeart } from "react-icons/ci";
 import Image from 'next/image';
+import { FiX } from "react-icons/fi";
 
 interface CartItemProps{
     id: number,
@@ -19,8 +20,8 @@ interface CartItemProps{
 const CartItem: React.FC<CartItemProps> = ({id, img, price, title, size, color, quantity, onDelete, onSelectQuantity}) =>{
 
     return (
-        <div className='flex gap-3 bg-white h-fit p-4 items-start w-full'>
-            <Image width={140} height={100} src={img} alt=''></Image>
+        <div className='flex gap-3 bg-white h-fit p-4 items-start w-full justify-between'>
+            <Image width={90} height={50} src={img} alt={img}></Image>
             <div className='flex flex-col items-start gap-2'>
                 <p className='font-bold'>${price}</p>
                 <p className='text-sm font-thin text-gray-400'>{title}</p>

@@ -2,7 +2,7 @@ import { FiShoppingBag, FiGift } from "react-icons/fi";
 import { IoMdHelpCircleOutline } from "react-icons/io";
 
 const SideBar: React.FC = () => {
-    return <div className='flex flex-col justify-center items-start w-fit'>
+    return <div className='flex flex-col justify-center items-start w-fit h-fit'>
             <div className="flex items-center gap-3 bg-white py-7 pl-3 pr-20">
                 <div className="py-7 px-6 rounded-full bg-black">
                     <h1 className="text-3xl font-bold text-white">HQ</h1>

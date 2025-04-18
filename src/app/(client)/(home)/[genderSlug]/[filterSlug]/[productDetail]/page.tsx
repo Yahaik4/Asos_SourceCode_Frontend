@@ -14,15 +14,16 @@ import Breadcrumbs from "@/app/(client)/components/Breadcrumbs";
 
 import { fetchFilteredProducts } from "@/Services/productService";
 import { useFetch } from "@/Hook/useFetch";
-import { Product } from "@/app/models/Product";
+import { Product, ClothingProduct, ShoesProduct, JewelryProduct } from "@/app/models/Product";
 import imgProduct from '../../../../../../../public/Home/Women/Products/product1.avif'
 // import imgProductHover from '../../../../../../public/Home/Women/Products/productHover1.avif'
 import Image from "next/image"
 import Color from "@/app/(client)/components/Color";
 import DropdownOption from "@/app/(client)/components/DropdownOption";
 import { AddCartItem } from "@/Services/cartService";
-import CartItemModel from "@/app/models/CartItemModel";
+import {CartItemModel} from "@/app/models/CartItemModel";
 import { useCart } from "@/app/(client)/Context/CartContext";
+import { ProductDetailTemplate } from "@/app/(client)/components/TemplatePattern/ProductDetailTemplate";
 
 
 const page: React.FC = () => {
@@ -51,6 +52,7 @@ const page: React.FC = () => {
         colors: new Set<string>(),
         sizes: new Set<string>()
     });
+    console.log(product);
 
     useEffect(() => {
         const newColorSet = new Set<string>();
@@ -147,14 +149,11 @@ const page: React.FC = () => {
                                 })
                             )
                         }
-                        <Image className="pb-3" src={imgProduct} alt="" />
-                        <Image className="pb-3" src={imgProduct} alt="" />
-                        <Image className="pb-3" src={imgProduct} alt="" />
-                        <Image className="pb-3" src={imgProduct} alt="" />
+                        {/* <Image className="pb-3" src={imgProduct} alt="" /> */}
 
                     </div>
 
-                    <div className="relative w-[500px] h-[650px] mx-10">
+                    <div className="relative w-[500px] h-[650px] mx-4">
                         {
                             product?.productImages?.length > 0 && (
                                 <Image fill className="" src={product.productImages[0].imageUrl} alt="" />
@@ -162,9 +161,9 @@ const page: React.FC = () => {
                         }
                     </div>
                 </div>
-                <div className="px-3 py-3 mt-6">
-                    <div className="flex items-start">
-                        <h1 className="mb-3 tracking-wide">{product?.name}ASOS DESIGN crop relaxed revere cord shirt with chest embroidery in brown</h1>
+                <div className="px-3 py-2">
+                    <div className="flex items-center justify-between">
+                        <h1 className="mb-3 tracking-wide text-xl">{product?.name}</h1>
                         <MdOutlineFileUpload size={50}/>
                     </div>
                     <h1 className="mb-2 font-bold text-red-700 text-lg">Now £{product?.price}</h1>
@@ -174,7 +173,16 @@ const page: React.FC = () => {
                         <IoPricetagsOutline size={20}/>
                         <p className="font-thin ">Get 30% off! With code: <span className="font-bold">DAWN</span></p>
                     </div>
+                    <div className="flex gap-2 mb-2">
+                        <p className="font-bold">Description: </p>
+                        <p className="text-gray-500">{product?.description}</p> 
+                    </div>
+                    <div className="flex gap-2 mb-2">
+                        <p className="font-bold">Gender: </p>
+                        <p className="text-gray-500">{product?.gender}</p> 
+                    </div>
 
+                    {product && <ProductDetailTemplate product={product} />}
 
                     <div className="flex">
                         <p className="text-sm font-bold tracking-wide mr-4">COLOUR:</p>
@@ -196,7 +204,7 @@ const page: React.FC = () => {
                         
                     </div>
 
-                    <div className="flex items-center justify-between mt-2">
+                    <div className="flex items-center justify-between mt-2 gap-4">
                         <button
                             type="button"
                             className={`px-24 py-3 font-bold text-white ${dataItem.color && dataItem.size ? "bg-green-700" : "bg-stone-300"}`}

@@ -24,6 +24,8 @@ const ProductList: React.FC<ProductListProps> = ({products}) => {
                     <ProductItem
                         onClick={() => handleOnclickItem(product.id)}
                         key={product.id}
+                        name={product.name}
+                        brand={product.brand.name}
                         description={product.description} 
                         price={product.price} 
                         img={product.productImages[0]?.imageUrl} 

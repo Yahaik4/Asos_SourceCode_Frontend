@@ -33,12 +33,13 @@ const page: React.FC = () => {
                 <div className="mb-6 w-full font-bold text-2xl">
                     Hi friend!
                 </div>
-
+                
                 {showEmailForm ? (
                     <EmailForm defaultEmail="" onSubmit={(email) => { setEmail(email); setShowEmailForm(false); }} />
                 ) : (
                     <PasswordForm email={email} onEdit={() => setShowEmailForm(true)} />
                 )}
+                
             </div>
         </div>
     )

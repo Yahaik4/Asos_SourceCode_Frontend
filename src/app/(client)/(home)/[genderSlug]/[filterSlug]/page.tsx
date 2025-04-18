@@ -1,5 +1,5 @@
 'use client'
-import { useCallback } from "react";
+import { useCallback, useState, useEffect } from "react";
 
 import { usePathname } from "next/navigation"
 import DropDownText from "@/components/DropDownText";
@@ -10,24 +10,46 @@ import ProductList from "@/app/(client)/components/ProductList";
 import { useFetch } from '@/Hook/useFetch'
 import { getAllProduct, fetchFilteredProducts } from '@/Services/productService'
 import { Product } from '@/app/models/Product'
+import { Felipa } from "next/font/google";
 
 const page: React.FC = () => {
     const pathname = usePathname();
     const path = pathname.split('/');
     const gender = path[1];
-    const category = path[2];
-    console.log("path:", path[1]);
-    console.log("Category:", path[2]);
+    let filter = path[2];
+    const [valueFilter, setValueFilter] = useState<{ key: string; value: string } | null>(null);
+    const keywords = ["Clothing", "Shoes", "Jewelry"];
+
+    useEffect(() => {
+        if (filter === 'All') {
+            setValueFilter(null);
+        } else {
+            if (keywords.some(keyword => filter.includes(keyword))) {
+                setValueFilter({ key: "productType", value: filter });
+            } else {
+                setValueFilter({ key: "categoryName", value: filter });
+            }
+        }
+    }, [filter]);
+    console.log(valueFilter);
+    
     
     const fetchFn = useCallback(() => {
+        if (filter === 'All') {
+            return fetchFilteredProducts([{ key: "gender", value: gender }]);
+        }
+        if (!valueFilter?.key || !valueFilter?.value) {
+            return Promise.resolve([]);
+        }
         return fetchFilteredProducts([
-            {key: "gender", value: gender }, 
-            {key: "categoryName", value: category}
-        ])
-    }, [gender, category]);
+            { key: "gender", value: gender },
+            valueFilter
+        ]);
+    }, [gender,filter, valueFilter]);
     
     const { isFetching, fetchedData, error } = useFetch<Product[]>(fetchFn , []);
-    // console.log(fetchedData); 
+    console.log(fetchedData); 
+
     
     if(isFetching) return <p>Loading...</p>
     if(error) return <p>Error: {error.message}</p>
